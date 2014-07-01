@@ -20,7 +20,14 @@ object Build extends Build {
       test(scalaTest, akkaTestKit)
     )
 
-  // Shared utils
+  lazy val units = project
+    .settings(defaultSettings: _*)
+    .settings(libraryDependencies ++=
+    provided(akkaActor) ++
+      compile(sprayJson, sprayHttpx, scalaLogging, logback) ++
+      test(scalaTest, akkaTestKit)
+    )
+
   lazy val support = project
     .settings(defaultSettings: _*)
     .settings(libraryDependencies ++=

@@ -23,7 +23,7 @@ trait CommandServiceHttpRoute extends HttpService
 with CommandServiceClientHelper with CommandServiceJsonFormats with ConfigJsonFormats {
 
   // Log messages at INFO level (XXX does this work?)
-  def requestMessageAsInfo(req: HttpRequest): LogEntry = LogEntry(req.message, Logging.InfoLevel)
+  implicit def requestMessageAsInfo(req: HttpRequest): LogEntry = LogEntry(req.message, Logging.InfoLevel)
   DebuggingDirectives.logRequest(requestMessageAsInfo _)
 
   // Implementing classes need to define logging
