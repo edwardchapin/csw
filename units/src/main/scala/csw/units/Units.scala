@@ -1,4 +1,4 @@
-package scalaquantity
+package csw.units
 
 import Exponents._
 import scala.math.Pi

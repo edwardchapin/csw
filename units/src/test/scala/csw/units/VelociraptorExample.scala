@@ -1,6 +1,6 @@
-package scalaquantity
+package csw.units
 
-import scalaquantity.Units._
+import csw.units.Units._
 
 /**
  * Tests units.  If this compiles, then the test is successful.

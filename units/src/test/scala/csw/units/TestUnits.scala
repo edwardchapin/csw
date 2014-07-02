@@ -1,15 +1,14 @@
-package scalaquantity
+package csw.units
 
 
-import scalaquantity.Exponents._
+import csw.units.Exponents._
 import Units._
-import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.{FunSuite, FlatSpec}
+import org.scalatest.{Matchers, FunSuite, FlatSpec}
 
 /**
  * If it compiles, it passed 
  */
-class TestUnits extends FunSuite with ShouldMatchers {
+class TestUnits extends FunSuite with Matchers {
 
   test("An Exponent should support numerals") {
     assert(exponentValue[P0] === 0)

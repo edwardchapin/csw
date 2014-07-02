@@ -1,4 +1,4 @@
-package scalaquantity
+package csw.units
 
 object Utils {
 
