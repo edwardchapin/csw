@@ -1,9 +1,6 @@
 package csw.units
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import org.scalatest.FunSuite
-import squants.space.AngleConversions._
-import squants.space.Degrees
 import Coordinates._
 import org.scalatest._
 
@@ -40,6 +37,4 @@ class AstropyTests extends FunSuite with LazyLogging with ShouldMatchers {
     val a = "00:10".hours
     assertClose(a.toHours, 10.0 / 60.0)
   }
-
-
 }
