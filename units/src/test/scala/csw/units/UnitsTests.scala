@@ -6,6 +6,7 @@ import squants.space.AngleConversions._
 import squants.space.LengthConversions._
 import squants.space.{Microns, Nanometers, Degrees}
 import Coordinates._
+//import scala.language.postfixOps
 
 class UnitsTests extends FunSuite with LazyLogging with ShouldMatchers {
   val format = "%.2f"
@@ -44,5 +45,21 @@ class UnitsTests extends FunSuite with LazyLogging with ShouldMatchers {
     println(s"d = ${d.toString(Microns, "%.3f")}")
     assert(d.toString(Microns, "%.3f") == "1.001 µm")
     assertClose(d.toMicrons, 1.001)
+  }
+
+  test("Saving units with a value") {
+    val d1 = 2.5.µm
+    val d1Units = Microns
+    val d1a = d1.to(d1Units)
+    assert(d1a == 2.5)
+    val d1b = d1Units(d1a)
+    assert(d1 == d1b)
+
+    val ra = "12:30:00.0".hours
+    val raUnits = HourAngle // Hour is already used for time units
+    val dec = "10:12:00.0".degrees
+    val decUnits = Degrees
+    assert(ra.to(raUnits) == 12.5)
+    assert(dec.to(decUnits) == 10.2)
   }
 }
