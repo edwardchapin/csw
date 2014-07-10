@@ -48,6 +48,8 @@ object Dependencies {
 
   val protobufJava = "com.google.protobuf" % "protobuf-java" % "2.5.0"
 
+  val squants = "com.squants"  %% "squants"  % "0.4.2"
+
   // Test dependencies
   val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
   val akkaMultiNodeTest = "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion

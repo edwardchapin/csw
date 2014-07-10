@@ -22,7 +22,7 @@ object Build extends Build {
     .settings(defaultSettings: _*)
     .settings(libraryDependencies ++=
     provided(akkaActor) ++
-      compile(sprayJson, sprayHttpx, scalaLogging, logback) ++
+      compile(squants, sprayJson, sprayHttpx, scalaLogging, logback) ++
       test(scalaTest, akkaTestKit)
     )
 
