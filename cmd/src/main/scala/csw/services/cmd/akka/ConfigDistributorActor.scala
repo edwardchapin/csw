@@ -8,8 +8,8 @@ import csw.services.cmd.akka.CommandServiceActor._
 import csw.services.cmd.akka.ConfigActor.{ ConfigGet, ConfigResponse, _ }
 import csw.services.cmd.akka.ConfigDistributorActor.SubmitInfo
 import csw.services.cmd.akka.QueryWorkerActor.QueryInfo
-import csw.services.ls.LocationServiceActor.{ LocationServiceInfo, ServicesReady }
-import csw.services.ls.LocationServiceClientActor.{ Disconnected, Connected }
+import csw.services.ls.OldLocationServiceActor.{ LocationServiceInfo, ServicesReady }
+import csw.services.ls.OldLocationServiceClientActor.{ Disconnected, Connected }
 import csw.shared.{ RunId, CommandStatus }
 import csw.util.cfg.Configurations._
 

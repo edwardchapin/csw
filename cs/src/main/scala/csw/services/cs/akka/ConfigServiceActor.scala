@@ -5,8 +5,8 @@ import java.io.File
 import akka.actor._
 import csw.services.cs.core.git.GitConfigManager
 import csw.services.cs.core.{ ConfigFileHistory, _ }
-import csw.services.ls.LocationServiceActor.{ ServiceId, ServiceType }
-import csw.services.ls.{ LocationService, LocationServiceRegisterActor }
+import csw.services.ls.OldLocationServiceActor.{ ServiceId, ServiceType }
+import csw.services.ls.{ OldLocationService, OldLocationServiceRegisterActor }
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -99,7 +99,7 @@ object ConfigServiceActor {
   def locateConfigService(name: String)(implicit system: ActorSystem): Future[ActorRef] = {
     import system.dispatcher
     val serviceId = ServiceId(name, ServiceType.Service)
-    LocationService.resolve(serviceId).map(_.actorRefOpt.get)
+    OldLocationService.resolve(serviceId).map(_.actorRefOpt.get)
   }
 }
 
@@ -120,7 +120,7 @@ class ConfigServiceActor(configManager: ConfigManager) extends Actor with ActorL
   // Start an actor to re-register when the location service restarts
   def registerWithLocationService(): Unit = {
     val serviceId = ServiceId(configManager.name, ServiceType.Service)
-    context.actorOf(LocationServiceRegisterActor.props(serviceId, Some(self)))
+    context.actorOf(OldLocationServiceRegisterActor.props(serviceId, Some(self)))
   }
 
   override def receive: Receive = {

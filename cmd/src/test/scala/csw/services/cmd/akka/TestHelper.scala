@@ -5,8 +5,8 @@ import java.net.URI
 import akka.actor.{ ActorRef, Props }
 import akka.testkit.{ ImplicitSender, TestKit }
 import csw.services.cmd.akka.CommandServiceActor.{ CommandServiceStatus, StatusRequest }
-import csw.services.ls.LocationServiceActor._
-import csw.services.ls.LocationServiceClientActor.Connected
+import csw.services.ls.OldLocationServiceActor._
+import csw.services.ls.OldLocationServiceClientActor.Connected
 
 // Test HCD
 object TestHcdCommandServiceActor {

@@ -2,8 +2,8 @@ package csw.services.pkg
 
 import akka.actor.Props
 import csw.services.cmd.akka._
-import csw.services.ls.LocationServiceActor
-import LocationServiceActor._
+import csw.services.ls.OldLocationServiceActor
+import OldLocationServiceActor._
 
 object TestHcd {
   def props(name: String, configPath: String): Props = Props(classOf[TestHcd], name, configPath)

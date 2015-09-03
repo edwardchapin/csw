@@ -5,10 +5,10 @@ import csw.services.cmd.akka.CommandQueueActor.SubmitWithRunId
 import csw.services.cmd.akka.CommandServiceActor.QueueBypassRequestWithRunId
 import csw.services.cmd.akka.CommandStatusActor.StatusUpdate
 import csw.services.cmd.akka.ConfigActor.{ ConfigResponse, ConfigGet }
-import csw.services.ls.LocationService.RegInfo
-import csw.services.ls.LocationServiceActor.ServiceId
-import csw.services.ls.LocationServiceClientActor.{ Connected, Disconnected }
-import csw.services.ls.{ LocationServiceClientActor, LocationServiceRegisterActor }
+import csw.services.ls.OldLocationService.RegInfo
+import csw.services.ls.OldLocationServiceActor.ServiceId
+import csw.services.ls.OldLocationServiceClientActor.{ Connected, Disconnected }
+import csw.services.ls.{ OldLocationServiceClientActor, OldLocationServiceRegisterActor }
 import csw.shared.{ CommandStatus, RunId }
 
 import scala.util.Failure
@@ -351,7 +351,7 @@ case class LifecycleManager(componentProps: Props, regInfo: RegInfo, services: L
   // Starts an actor to manage registering this actor with the location service
   // (as a proxy for the component)
   private def registerWithLocationService(): Unit = {
-    context.actorOf(LocationServiceRegisterActor.props(regInfo.serviceId, Some(self),
+    context.actorOf(OldLocationServiceRegisterActor.props(regInfo.serviceId, Some(self),
       regInfo.configPath, regInfo.httpUri))
   }
 
@@ -363,7 +363,7 @@ case class LifecycleManager(componentProps: Props, regInfo: RegInfo, services: L
     log.debug(s" requestServices $services")
     val actorName = s"$name-ls-client"
     if (context.child(actorName).isEmpty)
-      context.actorOf(LocationServiceClientActor.props(services), actorName)
+      context.actorOf(OldLocationServiceClientActor.props(services), actorName)
 
   }
 

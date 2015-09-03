@@ -12,6 +12,7 @@
     <logger name="csw" level="DEBUG"/>
     <logger name="org.hornetq" level="ERROR"/>
     <logger name="io.netty" level="ERROR"/>
+    <logger name="com.ning.http" level="ERROR"/>
 
     <if condition='isDefined("application-name")'>
         <then>

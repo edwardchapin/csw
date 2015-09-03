@@ -31,6 +31,7 @@ object Settings {
     resolvers += "mDialog releases" at "http://mdialog.github.io/releases/",
     // local maven repo
     //    resolvers += "Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
+    resolvers += Resolver.url("bintray-tecsisa-repo", url("http://dl.bintray.com/tecsisa/maven-bintray-repo"))(Resolver.ivyStylePatterns),
     resolvers += sbtResolver.value
   )
 

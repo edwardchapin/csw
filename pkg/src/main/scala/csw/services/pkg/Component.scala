@@ -1,8 +1,8 @@
 package csw.services.pkg
 
 import akka.actor._
-import csw.services.ls.LocationService.RegInfo
-import csw.services.ls.LocationServiceActor.ServiceId
+import csw.services.ls.OldLocationService.RegInfo
+import csw.services.ls.OldLocationServiceActor.ServiceId
 import csw.services.pkg.LifecycleManager.Startup
 
 /**

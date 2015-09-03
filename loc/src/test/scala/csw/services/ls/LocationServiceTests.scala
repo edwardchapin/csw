@@ -1,64 +1,69 @@
 package csw.services.ls
 
-import akka.testkit.{ ImplicitSender, TestKit }
-import akka.actor._
-import org.scalatest.{ FunSuiteLike, BeforeAndAfterAll }
-import LocationServiceActor._
+import akka.actor.ActorSystem
+import akka.http.scaladsl.model.Uri
+import akka.testkit.{ImplicitSender, TestKit}
+import csw.services.ls.ServiceType.{Assembly, HCD}
+import org.scalatest.{BeforeAndAfterAll, FunSuiteLike}
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 /**
- * Simple standalone test of local location service (normally it should be run as a remote actor)
+ * Simple standalone test of local location service
  */
 class LocationServiceTests extends TestKit(ActorSystem("Test"))
-    with ImplicitSender with FunSuiteLike with BeforeAndAfterAll {
+with ImplicitSender with FunSuiteLike with BeforeAndAfterAll {
+
+  import system.dispatcher
+
+  val loc = LocationService(system)
+  val timeout = 5.seconds
 
   test("Test location service") {
-    val ls = system.actorOf(Props[LocationServiceActor], LocationServiceActor.locationServiceName)
+    val serviceId = ServiceId("TestActor", HCD)
 
-    // register
-    val serviceId = ServiceId("TestActor", ServiceType.HCD)
-    ls ! Register(serviceId, None, None)
+    val regInfo = RegInfo(serviceId,
+      configPath = Some("test.path"),
+      httpUri = Some(Uri("http://localhost/test"))
+    )
 
-    // resolve
-    ls ! Resolve(serviceId)
-    val info = expectMsgType[LocationServiceInfo]
-    assert(info.serviceId == serviceId)
-    assert(info.actorRefOpt == Some(self))
-    assert(info.configPathOpt == None)
-    assert(info.endpoints.size == 1)
+    def compareRegInfo(r: RegInfo): Unit = {
+      assert(r.serviceId == serviceId)
+      assert(r.configPath.contains("test.path"))
+      assert(r.httpUri.contains(Uri("http://localhost/test")))
+      assert(r.actorUri.isEmpty)
+    }
 
-    // browse
-    ls ! Browse(None, None)
-    ls ! Browse(Some("TestActor"), None)
-    ls ! Browse(None, Some(ServiceType.HCD))
-    ls ! Browse(Some("TestActor"), Some(ServiceType.HCD))
-    val r1 = expectMsgType[BrowseResults]
-    val r2 = expectMsgType[BrowseResults]
-    val r3 = expectMsgType[BrowseResults]
-    val r4 = expectMsgType[BrowseResults]
-    assert(r1.results.size == 1)
-    assert(r1.results.head == info)
-    assert(r2 == r1)
-    assert(r3 == r1)
-    assert(r4 == r1)
-    ls ! Browse(Some("TestActor"), Some(ServiceType.Assembly))
-    ls ! Browse(Some("XXX"), None)
-    ls ! Browse(Some("XXX"), Some(ServiceType.HCD))
-    val r5 = expectMsgType[BrowseResults]
-    val r6 = expectMsgType[BrowseResults]
-    val r7 = expectMsgType[BrowseResults]
-    assert(r5.results.size == 0)
-    assert(r6.results.size == 0)
-    assert(r7.results.size == 0)
+    // Test set/get
+    val f = for {
+      _ <- loc.register(regInfo)
+      opt <- loc.resolve(serviceId, wait = false)
+    } yield opt
 
-    // request services
-    ls ! RequestServices(List(serviceId))
-    val sr = expectMsgType[ServicesReady]
-    assert(sr.services.size == 1)
-    assert(sr.services.head == info)
-  }
+    Await.result(f, timeout) match {
+      case None => fail("Test1 failed")
+      case Some(r) => compareRegInfo(r)
+    }
 
-  override def afterAll(): Unit = {
-    system.shutdown()
+    // Test browse
+    val l = Await.result(loc.browse(Some("TestActor"), None), timeout)
+    assert(l.size == 1)
+    l.foreach(compareRegInfo)
+
+    val l2 = Await.result(loc.browse(Some("TestActorXXX"), None), timeout)
+    assert(l2.isEmpty)
+
+    val l3 = Await.result(loc.browse(None, Some(HCD)), timeout)
+    assert(l3.size == 1)
+    l.foreach(compareRegInfo)
+
+    val l4 = Await.result(loc.browse(Some("TestActor"), Some(Assembly)), timeout)
+    assert(l4.isEmpty)
+
+    val l5 = Await.result(loc.browse(Some("TestActor"), Some(HCD)), timeout)
+    assert(l5.size == 1)
+    l.foreach(compareRegInfo)
+
   }
 }
-

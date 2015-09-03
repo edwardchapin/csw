@@ -8,7 +8,7 @@ import com.typesafe.config.ConfigFactory
 import csw.services.apps.configServiceAnnex.ConfigServiceAnnexServer
 import csw.services.cs.akka.ConfigServiceActor._
 import csw.services.cs.core.ConfigManagerTestHelper
-import csw.services.ls.LocationServiceActor
+import csw.services.ls.OldLocationServiceActor
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -80,7 +80,7 @@ class TestSpec extends MultiNodeSpec(TestConfig) with STMultiNodeSpec with Impli
       }
 
       runOn(locationService) {
-        system.actorOf(Props[LocationServiceActor], LocationServiceActor.locationServiceName)
+        system.actorOf(Props[OldLocationServiceActor], OldLocationServiceActor.locationServiceName)
         enterBarrier("locationServiceStarted")
         enterBarrier("deployed")
         enterBarrier("done")

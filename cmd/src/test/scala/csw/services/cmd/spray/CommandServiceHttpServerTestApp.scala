@@ -2,11 +2,11 @@ package csw.services.cmd.spray
 
 import akka.actor._
 import csw.services.cmd.akka._
-import csw.services.ls.LocationServiceActor
-import LocationServiceActor.{ ServicesReady, ServiceType, ServiceId, LocationServiceInfo }
+import csw.services.ls.OldLocationServiceActor
+import OldLocationServiceActor.{ ServicesReady, ServiceType, ServiceId, LocationServiceInfo }
 import java.net.URI
 
-import csw.services.ls.LocationServiceClientActor.Connected
+import csw.services.ls.OldLocationServiceClientActor.Connected
 
 /**
  * Standalone command service test application.

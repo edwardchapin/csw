@@ -13,6 +13,7 @@ object Dependencies {
   val hornetqVersion = "2.4.7.Final"
   //  val hornetqVersion = "2.5.0-SNAPSHOT"
 
+  // Akka
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
   val akkaKernel = "com.typesafe.akka" %% "akka-kernel" % akkaVersion
   val akkaRemote = "com.typesafe.akka" %% "akka-remote" % akkaVersion
@@ -32,26 +33,21 @@ object Dependencies {
   val janino = "org.codehaus.janino" % "janino" % "2.7.6"
   val logstashLogbackEncoder = "net.logstash.logback"   % "logstash-logback-encoder" % "3.1"
   val upickle = "com.lihaoyi" %% "upickle" % "0.3.4"
-
   val jgit = "org.eclipse.jgit" % "org.eclipse.jgit" % "3.5.1.201410131835-r"
-
   val redisScala = "com.etaty.rediscala" %% "rediscala" % "1.4.0"
-
   val hornetqServer = "org.hornetq" % "hornetq-server" % hornetqVersion
   val hornetqNative = "org.hornetq" % "hornetq-native" % hornetqVersion from s"http://repo1.maven.org/maven2/org/hornetq/hornetq-native/$hornetqVersion/hornetq-native-$hornetqVersion.jar"
-  val ficus = "net.ceedubs" % "ficus_2.11" % "1.1.2"
-
+  val ficus = "net.ceedubs" %% "ficus" % "1.1.2"
   val protobufJava = "com.google.protobuf" % "protobuf-java" % "2.5.0"
-
+//  val scalaEtcd = "net.nikore.etcd" %% "scala-etcd" % "0.8"
+  val scalaEtcd = "com.tecsisa" %% "scala-etcd" % "0.0.1"
   val scopt = "com.github.scopt" %% "scopt" % "3.3.0"
 
   // Test dependencies
   val akkaStreamTestKit = "com.typesafe.akka" %% "akka-stream-testkit-experimental" % akkaStreamsVersion
   val akkaHttpTestKit = "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamsVersion
-
   val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
   val akkaMultiNodeTest = "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion
-
   val scalaTest = "org.scalatest" %% "scalatest" % "2.2.5"
   val junit = "com.novocode" % "junit-interface" % "0.11"
   val specs2 = "org.specs2" %% "specs2" % "3.3.1"

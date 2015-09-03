@@ -63,10 +63,10 @@ lazy val kvs = project
 
 // Location Service
 lazy val loc = project
-  .settings(packageSettings("CSW Location Service", "Used to lookup command service actors"): _*)
+  .settings(defaultSettings: _*)
   .settings(libraryDependencies ++=
     provided(akkaActor) ++
-      compile(akkaRemote) ++
+      compile(akkaRemote, scalaEtcd, upickle) ++
       test(scalaTest, akkaTestKit)
   ) dependsOn(log, util)
 
@@ -82,7 +82,6 @@ lazy val cmd = project.enablePlugins(SbtTwirl)
 
 // Config Service
 lazy val cs = project
-  .settings(defaultSettings: _*)
   .settings(packageSettings("CSW Config Service", "Used to manage configuration files in a Git repository"): _*)
   .settings(bashScriptExtraDefines ++= Seq("addJava -Dapplication-name=configService"))
   .settings(SbtMultiJvm.multiJvmSettings: _*)

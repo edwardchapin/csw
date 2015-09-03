@@ -4,9 +4,9 @@ import java.net.URI
 
 import akka.actor._
 import com.typesafe.config.Config
-import csw.services.ls.LocationService.RegInfo
-import csw.services.ls.LocationServiceActor.{ ServiceId, ServiceType }
-import csw.services.ls.LocationServiceRegisterActor
+import csw.services.ls.OldLocationService.RegInfo
+import csw.services.ls.OldLocationServiceActor.{ ServiceId, ServiceType }
+import csw.services.ls.OldLocationServiceRegisterActor
 
 import scala.collection.JavaConversions._
 
@@ -130,7 +130,7 @@ class Container(config: Config) extends Actor with ActorLogging {
   private def registerWithLocationService(): Unit = {
     val name = config.getString("container.name")
     val regInfo = RegInfo(ServiceId(name, ServiceType.Container))
-    context.actorOf(LocationServiceRegisterActor.props(regInfo.serviceId, Some(self),
+    context.actorOf(OldLocationServiceRegisterActor.props(regInfo.serviceId, Some(self),
       regInfo.configPath, regInfo.httpUri))
   }
 

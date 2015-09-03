@@ -5,7 +5,7 @@ import akka.remote.testkit._
 import akka.testkit.ImplicitSender
 import com.typesafe.config.ConfigFactory
 import csw.services.cmd.akka.CommandServiceActor.Submit
-import csw.services.ls.LocationServiceActor
+import csw.services.ls.OldLocationServiceActor
 import csw.services.pkg.LifecycleManager.LifecycleStateChanged
 import csw.shared.CommandStatus
 import csw.util.cfg.TestConfig
@@ -93,7 +93,7 @@ class ContainerSpec extends MultiNodeSpec(ContainerConfig) with STMultiNodeSpec 
       }
 
       runOn(locationService) {
-        val ls = system.actorOf(Props[LocationServiceActor], LocationServiceActor.locationServiceName)
+        val ls = system.actorOf(Props[OldLocationServiceActor], OldLocationServiceActor.locationServiceName)
         enterBarrier("locationServiceStarted")
         enterBarrier("deployed")
         enterBarrier("done")

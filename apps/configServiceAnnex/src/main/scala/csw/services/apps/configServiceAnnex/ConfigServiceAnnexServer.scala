@@ -12,8 +12,8 @@ import akka.http.scaladsl.Http
 import akka.stream.scaladsl.{ Sink, Source }
 import akka.util.ByteString
 import com.typesafe.scalalogging.slf4j.Logger
-import csw.services.ls.LocationServiceActor.{ ServiceType, ServiceId }
-import csw.services.ls.LocationServiceRegisterActor
+import csw.services.ls.OldLocationServiceActor.{ ServiceType, ServiceId }
+import csw.services.ls.OldLocationServiceRegisterActor
 import org.slf4j.LoggerFactory
 import akka.actor.ActorSystem
 
@@ -60,7 +60,7 @@ case class ConfigServiceAnnexServer(registerWithLoc: Boolean = false) {
     val httpUri = new URI(s"http://${addr.getHostString}:${addr.getPort}/")
     logger.info(s"Registering with the location service with URI $httpUri")
     // Start an actor to re-register when the location service restarts
-    system.actorOf(LocationServiceRegisterActor.props(serviceId, actorRef = None, configPath = None, httpUri = Some(httpUri)))
+    system.actorOf(OldLocationServiceRegisterActor.props(serviceId, actorRef = None, configPath = None, httpUri = Some(httpUri)))
   }
 
   // Implements Http GET
