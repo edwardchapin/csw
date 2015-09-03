@@ -51,10 +51,10 @@ case class LocationService(system: ActorSystem) {
    */
   def resolve(serviceId: ServiceId, wait: Boolean = true): Future[Option[RegInfo]] = {
     val key = getKey(serviceId)
-    etcdClient.getKey(key).map(_.node.value.map(RegInfo.fromJson)).flatMap {
+    etcdClient.getKeyAndWait(key, wait).map(_.node.value.map(RegInfo.fromJson)).flatMap {
       case s @ Some(regInfo) ⇒ Future.successful(s)
       case None if !wait     ⇒ Future.successful(None)
-      case None              ⇒ etcdClient.getKeyAndWait(key).map(_.node.value.map(RegInfo.fromJson))
+      case None              ⇒ resolve(serviceId, wait) // timed out? try again
     }
   }
 
